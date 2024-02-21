@@ -1,0 +1,212 @@
+{
+	"text":        {
+		"stories": {
+			"intro": "Hello adventurer. You are about to wander through dark places.\nFirst, would you kindly tell me your name?",
+			"room1": "You walk into the first room. It's filled with flesh and blood stains. Apart from that special ambiance, you can only see a small throne with someone on it.\nThat someone wears a red armor, or a black one covered with the blood of the enemies; a Red Knight.\nThey were created to cleanse the trash with their bare fists, without washing them to instill fear in their enemy. And 'enemy' is your status to him.\nHe gets up and cracks his joints. He is ready for you.\nPrepare to get your head smashed in.",
+			"room2": "Congratulations on the first boss. Let me heal you up as a gift. That was just a warm-up. By entering the new room, you begin to burn, not from heat but cold.\nThe floor is a bit slippery because of the ice covering the whole room. And at the end of it, you can see the shape of a beautiful lady, humming a familiar song.\nYou are getting closer to her, and she ignores you. You are suddenly remembering what is the song!\nIt is called \"Will you bear with me?\", and it's about the death of polar bears. The anthem of the Frozen Queen.\nShe now turns around and glares at you and wants to kill you!\nPrepare yourself!"
+		}
+	},
+	"classes":     [
+		{
+			"id":       1,
+			"name":     "barbarian",
+			"title":    "",
+			"nickname": "",
+			"hp":       20,
+			"mp":       5,
+			"stamina":  40,
+			"weight":   150
+		},
+		{
+			"id":       2,
+			"name":     "mage",
+			"title":    "",
+			"nickname": "",
+			"hp":       10,
+			"mp":       20,
+			"stamina":  15,
+			"weight":   60
+		},
+		{
+			"id":       3,
+			"name":     "rogue",
+			"title":    "",
+			"nickname": "",
+			"hp":       15,
+			"mp":       15,
+			"stamina":  20,
+			"weight":   90
+		}
+	],
+	"weapons":     [
+		{
+			"id":         1,
+			"name":       "wood sword",
+			"damage":     "1d4",
+			"durability": 15,
+			"cost":       6
+		},
+		{
+			"id":         2,
+			"name":       "iron sword",
+			"damage":     "2d5",
+			"durability": 25,
+			"cost":       14
+		},
+		{
+			"id":         3,
+			"name":       "Spear",
+			"damage":     "1d4",
+			"durability": 10,
+			"cost":       4
+		},
+		{
+			"id":         4,
+			"name":       "Bare Fists",
+			"damage":     "1d5",
+			"durability": 150,
+			"cost":       4
+		},
+		{
+			"id":         5,
+			"name":       "Ice Staff",
+			"damage":     "2d4",
+			"durability": 20,
+			"cost":       6
+		}
+	],
+	"spells":      [
+		{
+			"id":     1,
+			"name":   "Lightning Bolt",
+			"type":   "lightning",
+			"damage": "2d6",
+			"cost":   10
+		}
+	],
+	"equipments":  [
+		{
+			"id":         1,
+			"name":       "leather armor",
+			"defense":    2,
+			"durability": 5
+		}
+	],
+	"rarity":      [
+		{
+			"id":    1,
+			"name":  "common",
+			"color": "C6BBB9"
+		},
+		{
+			"id":    2,
+			"name":  "uncommon",
+			"color": "24F916"
+		},
+		{
+			"id":    3,
+			"name":  "rare",
+			"color": "1638F9"
+		},
+		{
+			"id":    4,
+			"name":  "epic",
+			"color": "A316F9"
+		},
+		{
+			"id":    5,
+			"name":  "legendary",
+			"color": "FF8000"
+		}
+	],
+	"weapon-type": [
+		{
+			"id":   1,
+			"name": "slashing"
+		},
+		{
+			"id":   2,
+			"name": "blunting"
+		},
+		{
+			"id":   3,
+			"name": "piercing"
+		}
+	],
+	"spell-type":  [
+		{
+			"id":   1,
+			"name": "lightning"
+		},
+		{
+			"id":   2,
+			"name": "ice"
+		},
+		{
+			"id":   3,
+			"name": "fire"
+		},
+		{
+			"id":   4,
+			"name": "blood"
+		}
+	],
+	"weather":     [
+		{
+			"id":   1,
+			"name": "sunny"
+		},
+		{
+			"id":   2,
+			"name": "rainy"
+		},
+		{
+			"id":   3,
+			"name": "stormy"
+		},
+		{
+			"id":   4,
+			"name": "snowy"
+		},
+		{
+			"id":   5,
+			"name": "cloudy"
+		}
+	],
+	"locations":   [
+		{
+			"id":   1,
+			"name": "dark forest"
+		},
+		{
+			"id":   2,
+			"name": "red castle"
+		},
+		{
+			"id":   3,
+			"name": "dead stronghold"
+		}
+	],
+	"boss":        [
+		{
+			"id":       1,
+			"name":     "Vladislas Natoskovic",
+			"nickname": "The Red Knight",
+			"level":    2,
+			"hp":       10,
+			"mp":       20,
+			"stamina":  15,
+			"weight":   60
+		},
+		{
+			"id":       2,
+			"name":     "Alita Anderssen",
+			"nickname": "Frozen Queen",
+			"level":    3,
+			"hp":       20,
+			"mp":       50,
+			"stamina":  15,
+			"weight":   20
+		}
+	]
+}
