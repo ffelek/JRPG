@@ -204,7 +204,7 @@ public class Game
 		p.resetValues();
 		b = Loader.bosses.get(1);
 		b.setActiveWeapon(Loader.weapons.get(4));
-		System.out.println(Loader.stories.get("room2"));
+		System.out.println(Loader.stories.get("room2").getAsString());
 		System.out.println("-".repeat(60));
 		Thread.sleep(20000);
 		Game.fight();
