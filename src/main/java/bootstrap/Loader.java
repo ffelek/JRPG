@@ -1,7 +1,7 @@
 package bootstrap;
 
-import characters.Character;
 import characters.Boss;
+import characters.Character;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,10 +11,14 @@ import equipments.Equipment;
 import equipments.Weapon;
 import utils.Constants;
 import utils.Randomizer;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.IOException;
-import java.util.*;
-
+/**
+ * Loads and stores info from Json file
+ * @author felek
+ */
 public class Loader
 {
 	public static final List<Character> playableClasses = new ArrayList<>();
@@ -28,6 +32,9 @@ public class Loader
 	private static final List<EquipmentType> EQUIPMENT_TYPES_VALUES = List.of(EquipmentType.values());
 	private static final int EQUIPMENT_TYPES_SIZE = EQUIPMENT_TYPES_VALUES.size() - 1;
 
+	/**
+	 * Calls methods to store data into dedicated variables
+	 */
 	public static void init()
 	{
 		try
@@ -39,13 +46,16 @@ public class Loader
 			Loader.loadWeapons();
 			Loader.loadEquipments();
 		}
-		catch (IOException err)
+		catch (FileNotFoundException err)
 		{
 			System.out.println(err.getLocalizedMessage() + "\nThe game will now stop.");
 			System.exit(0);
 		}
 	}
 
+	/**
+	 * Retrieves classes list to create dedicated objects
+	 */
 	private static void loadPlayableClasses()
 	{
 		JsonArray playableClasses = (JsonArray) Json.data.get("classes");
@@ -64,6 +74,9 @@ public class Loader
 		}
 	}
 
+	/**
+	 * Retrieves bosses list to create dedicated objects
+	 */
 	private static void loadBosses()
 	{
 		JsonArray bosses = (JsonArray) Json.data.get("boss");
@@ -84,6 +97,9 @@ public class Loader
 		}
 	}
 
+	/**
+	 * Retrieves weapons list to create dedicated objects
+	 */
 	private static void loadWeapons()
 	{
 		JsonArray weapons = (JsonArray) Json.data.get("weapons");
@@ -101,6 +117,9 @@ public class Loader
 		}
 	}
 
+	/**
+	 * Retrieves equipments list to create dedicated objects
+	 */
 	private static void loadEquipments()
 	{
 		JsonArray equipments = (JsonArray) Json.data.get("equipments");
@@ -117,17 +136,28 @@ public class Loader
 		}
 	}
 
+	/**
+	 * Retrieves narrative messages list to store them
+	 */
 	private static void loadStories()
 	{
 		Loader.texts = (JsonObject) Json.data.get(Constants.TEXT_KEY);
 		Loader.stories = (JsonObject) Loader.texts.get(Constants.STORIES_KEY);
 	}
 
+	/**
+	 * Retrieves a weapon type randomly
+	 * @return WeaponType
+	 */
 	public static WeaponType randomWeaponType()
 	{
 		return WEAPON_TYPES_VALUES.get(Randomizer.randomInRange(WEAPON_TYPES_SIZE, 1));
 	}
 
+	/**
+	 * Retrieves an equipment type randomly
+	 * @return EquipmentType
+	 */
 	public static EquipmentType randomEquipmentType()
 	{
 		return EQUIPMENT_TYPES_VALUES.get(Randomizer.randomInRange(EQUIPMENT_TYPES_SIZE, 1));
