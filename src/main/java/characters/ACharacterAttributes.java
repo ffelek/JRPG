@@ -1,16 +1,13 @@
 package characters;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import equipments.Equipment;
 import equipments.Weapon;
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import utils.ConsoleColors;
 import utils.Constants;
 import utils.PropertiesFile;
 import utils.Randomizer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +17,7 @@ import java.util.Objects;
 public abstract class ACharacterAttributes
 {
 	private int id;
+	private String name;
 	private String nickname;
 	private int hp;
 	private int initialHp;
@@ -31,6 +29,19 @@ public abstract class ACharacterAttributes
 	private List<Equipment> equipments = new ArrayList<>();
 	private Weapon activeWeapon;
 	private boolean hasParried;
+
+	public ACharacterAttributes(int id, String name, String nickname, int hp, int mp, int stamina)
+	{
+		this.setId(id);
+		this.setName(name);
+		this.setNickname(nickname);
+		this.setHp(hp);
+		this.setInitialHp(hp);
+		this.setMp(mp);
+		this.setInitialMp(mp);
+		this.setStamina(stamina);
+		this.setInitialStamina(stamina);
+	}
 
 	public boolean isDead()
 	{
