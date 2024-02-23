@@ -9,20 +9,12 @@ import java.util.List;
 @Setter
 public final class Character extends ACharacterAttributes
 {
-	private String name;
 	private int weight;
 	private List<Equipment> equipments;
 
 	public Character(int id, String name, int hp, int mp, int stamina, int weight)
 	{
-		this.setId(id);
-		this.setName(name);
-		this.setHp(hp);
-		this.setInitialHp(hp);
-		this.setMp(mp);
-		this.setInitialMp(mp);
-		this.setStamina(stamina);
-		this.setInitialStamina(stamina);
+		super(id, name, "", hp, mp, stamina);
 		this.setWeight(weight);
 	}
 }
