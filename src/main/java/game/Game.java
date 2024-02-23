@@ -5,8 +5,8 @@ import characters.Boss;
 import characters.Character;
 import equipments.Weapon;
 import utils.ConsoleColors;
-import utils.Loader;
-import utils.PropertiesFile;
+import bootstrap.Loader;
+import config.PropertiesFile;
 import utils.Randomizer;
 import java.util.Scanner;
 

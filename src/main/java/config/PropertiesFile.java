@@ -1,4 +1,6 @@
-package utils;
+package config;
+
+import utils.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;

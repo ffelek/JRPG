@@ -1,8 +1,10 @@
-package utils;
+package bootstrap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import utils.Constants;
+import config.PropertiesFile;
 import java.io.FileReader;
 import java.io.IOException;
 

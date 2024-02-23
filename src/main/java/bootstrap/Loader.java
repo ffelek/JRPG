@@ -1,4 +1,4 @@
-package utils;
+package bootstrap;
 
 import characters.Character;
 import characters.Boss;
@@ -9,6 +9,8 @@ import enums.EquipmentType;
 import enums.WeaponType;
 import equipments.Equipment;
 import equipments.Weapon;
+import utils.Constants;
+import utils.Randomizer;
 
 import java.io.IOException;
 import java.util.*;

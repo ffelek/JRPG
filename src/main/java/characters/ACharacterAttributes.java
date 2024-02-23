@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import utils.ConsoleColors;
 import utils.Constants;
-import utils.PropertiesFile;
+import config.PropertiesFile;
 import utils.Randomizer;
 import java.util.ArrayList;
 import java.util.List;
