@@ -10,6 +10,9 @@ import config.PropertiesFile;
 import utils.Randomizer;
 import java.util.Scanner;
 
+/**
+ * Contains game rules and the game itself
+ */
 public class Game
 {
 	public static String playerName;
@@ -43,6 +46,9 @@ public class Game
 		}
 	}
 
+	/**
+	 * Initialize the game and launch it
+	 */
 	public static void init()
 	{
 		Loader.init();
@@ -50,39 +56,9 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
-	public static void pickClass()
-	{
-		Game.displayPlayableClasses();
-		System.out.print(ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + "Pick your class (using the associated numbers):" + ConsoleColors.RESET + " ");
-		String input = s.nextLine();
-		int choice;
-		if (input.matches("^[0-9]+$"))
-		{
-			choice = Integer.parseInt(input);
-			switch (choice)
-			{
-				case 1 -> System.out.println("Want to break necks? Barbarian is made for this.");
-				case 2 -> System.out.println("Want to shoot fireballs at your enemies? Good choice.");
-				case 3 -> System.out.println("Rogue? You sneaky bastard.");
-				default ->
-				{
-					System.out.println("Don't want to pick? Let's do it randomly then!");
-					choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
-				}
-			}
-			choice--;
-		}
-		else
-		{
-			System.out.println("Think you're funny? Let's do it randomly then!");
-			choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
-		}
-		p = Loader.playableClasses.get(choice);
-		p.setNickname(Game.playerName);
-		System.out.printf("Your class is: " + ConsoleColors.BLUE_BACKGROUND + ConsoleColors.GREEN_BRIGHT + "%s" + ConsoleColors.RESET + "\n", p.getName());
-		System.out.println("-".repeat(60));
-	}
-
+	/**
+	 * Asks the player name
+	 */
 	private static void getPlayerName()
 	{
 		String prompt = ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + "Enter your player name:" + ConsoleColors.RESET + " ";
@@ -127,6 +103,47 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
+	/**
+	 * Shows playable classes and asks the player to choose one
+	 */
+	public static void pickClass()
+	{
+		Game.displayPlayableClasses();
+		System.out.print(ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + "Pick your class (using the associated numbers):" + ConsoleColors.RESET + " ");
+		String input = s.nextLine();
+		int choice;
+		// Regex to check what the player typed in
+		if (input.matches("^[0-9]+$"))
+		{
+			choice = Integer.parseInt(input);
+			switch (choice)
+			{
+				case 1 -> System.out.println("Want to break necks? Barbarian is made for this.");
+				case 2 -> System.out.println("Want to shoot fireballs at your enemies? Good choice.");
+				case 3 -> System.out.println("Rogue? You sneaky bastard.");
+				default ->
+				{
+					System.out.println("Don't want to pick? Let's do it randomly then!");
+					choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
+				}
+			}
+			choice--;
+		}
+		else
+		{
+			System.out.println("Think you're funny? Let's do it randomly then!");
+			choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
+		}
+		// Affecting the chosen class to the static variable
+		p = Loader.playableClasses.get(choice);
+		p.setNickname(Game.playerName);
+		System.out.printf("Your class is: " + ConsoleColors.BLUE_BACKGROUND + ConsoleColors.GREEN_BRIGHT + "%s" + ConsoleColors.RESET + "\n", p.getName());
+		System.out.println("-".repeat(60));
+	}
+
+	/**
+	 * Displays to the player the list of playable classes
+	 */
 	private static void displayPlayableClasses()
 	{
 		int i = 0;
@@ -139,6 +156,9 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
+	/**
+	 * Gives a weapon to the player
+	 */
 	private static void giveWeapon()
 	{
 		Weapon w = Loader.weapons.get(0);
@@ -156,6 +176,9 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
+	/**
+	 * Explains the game rules and context to the player
+	 */
 	private static void initRules()
 	{
 		System.out.printf("""
@@ -169,6 +192,7 @@ public class Game
 				%s 2 - NO %s
 				\n""", Game.playerName, ConsoleColors.BLACK, ConsoleColors.RESET, ConsoleColors.BLACK, ConsoleColors.RESET);
 		String answer = s.nextLine();
+		// Checks what the player typed in
 		if (answer.matches("^[1-2]$"))
 		{
 			int intAnswer = Integer.parseInt(answer);
@@ -188,9 +212,15 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
+	/**
+	 * First round of the game (Room 1)
+	 * @throws InterruptedException thrown if current thread is interrupted
+	 */
 	private static void initRoomOne() throws InterruptedException
 	{
+		// Get first boss
 		b = Loader.bosses.get(0);
+		// Get their weapon
 		b.setActiveWeapon(Loader.weapons.get(3));
 		System.out.println(Loader.stories.get("room1").getAsString());
 		System.out.println("-".repeat(60));
@@ -199,10 +229,17 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
+	/**
+	 * Second round of the game (Room 2)
+	 * @throws InterruptedException thrown if current thread is interrupted
+	 */
 	private static void initRoomTwo() throws InterruptedException
 	{
+		// Heal the player as a gift
 		p.resetValues();
+		// Get second boss
 		b = Loader.bosses.get(1);
+		// Get their weapon
 		b.setActiveWeapon(Loader.weapons.get(4));
 		System.out.println(Loader.stories.get("room2").getAsString());
 		System.out.println("-".repeat(60));
@@ -211,36 +248,49 @@ public class Game
 		System.out.println("-".repeat(60));
 	}
 
+	/**
+	 * Contains all the logic for the battle phase
+	 * @throws InterruptedException thrown if current thread is interrupted
+	 */
 	private static void fight() throws InterruptedException
 	{
+		// Retrieve characters status
 		boolean isPlayerDead = p.isDead();
 		boolean isBossDead = b.isDead();
 		System.out.println("OK, let's decide who is going to strike first!");
+		// Random choice to decide who plays first
 		boolean isPlayerTurn = Randomizer.randomInRange(1, 0) == 1;
 		Thread.sleep(2000);
 		System.out.printf(isPlayerTurn ? "%s" : "%s will take his turn first\n", "You will take your turn first.\n", b.getNickname());
 		System.out.println("-".repeat(60));
+		// Entering game loop
 		while (!isPlayerDead || !isBossDead)
 		{
 			if (isPlayerTurn)
 			{
+				// Player turn
 				Game.playerTurn();
 			}
 			else
 			{
+				// Boss turn
 				Game.bossTurn();
 			}
+			// Switching turn
 			isPlayerTurn = !isPlayerTurn;
+			// Retrieving characters status to continue or not the game loop
 			isPlayerDead = p.isDead();
 			isBossDead = b.isDead();
 			System.out.println("-".repeat(60));
 
+			// Player's death
 			if (isPlayerDead)
 			{
 				System.out.println("You died. That's a shame, or was it predictable?. Game Over.");
 				System.exit(0);
 			}
 
+			// Boss' death
 			if (isBossDead)
 			{
 				System.out.println(ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK_UNDERLINED + "The boss has died. Congratulations." + ConsoleColors.RESET);
@@ -249,16 +299,26 @@ public class Game
 		}
 	}
 
+	/**
+	 * Displays the character's list of owned weapon and allows them to change it
+	 * @param e character (player or boss)
+	 * @param <Entity> character (player or boss)
+	 * @return true if weapon has changed, false if not changed or the same as before
+	 */
 	private static <Entity extends ACharacterAttributes> boolean changeWeapon(Entity e)
 	{
+		// Displays weapons list
 		e.displayWeapons();
 		System.out.println("Enter the number of the desired weapon: (nothing to go back the previous screen)");
 		String answer = s.nextLine();
+		// Checks what the player typed in
 		if (answer.matches("^[0-9]+$"))
 		{
 			int choice = Integer.parseInt(answer);
+			// Check if choice is indeed a valid choice
 			if (choice >= 0 && choice <= e.getWeapons().size())
 			{
+				// If so, check if the choice is different from the current active weapon
 				if (!(e.getWeapons().get(choice - 1) == e.getActiveWeapon()))
 				{
 					e.setActiveWeapon(e.getWeapons().get(choice - 1));
@@ -278,11 +338,16 @@ public class Game
 		return false;
 	}
 
-	private static int getPlayerActionAnswer()
+	/**
+	 * Retrieves input from player and checks if it is valid (according to pattern)
+	 * @param pattern RegEx pattern to check
+	 * @return choice of player or 0 if not valid
+	 */
+	private static int getPlayerActionAnswer(String pattern)
 	{
 		System.out.printf("%s What will you do?%s ", ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK, ConsoleColors.RESET);
 		String answer = s.nextLine();
-		if (answer.matches("^[1-5]$"))
+		if (answer.matches(pattern))
 		{
 			return Integer.parseInt(answer);
 		}
@@ -292,16 +357,22 @@ public class Game
 		}
 	}
 
+	/**
+	 * Describes the player turn in the game loop
+	 */
 	private static void playerTurn()
 	{
 		int choice;
 		do
 		{
+			// Check if the player has parried previous turn
 			if (p.isHasParried())
 			{
+				// If so, toggle it
 				p.setHasParried(false);
 			}
 			System.out.printf("%s Turn.%s\n", ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK_UNDERLINED + p.getNickname(), ConsoleColors.RESET);
+			// Displays the messages with the possible actions
 			System.out.printf("""
 							What do you want to do?
 							%s1%s - Attack %s %s
@@ -315,11 +386,12 @@ public class Game
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET,
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET,
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET);
-			choice = Game.getPlayerActionAnswer();
+			choice = Game.getPlayerActionAnswer("^[1-5]$");
 			switch (choice)
 			{
 				case 1 ->
 				{
+					// In case of attack, check if not out of stamina
 					if (!p.isStaminaOut())
 					{
 						p.attack(b, p.getActiveWeapon(), false);
@@ -333,6 +405,7 @@ public class Game
 				case 2 -> p.parry();
 				case 3 ->
 				{
+					// If weapon not changed, lets player take its turn normally
 					if (!Game.changeWeapon(p))
 					{
 						choice = 0;
@@ -376,8 +449,13 @@ public class Game
 		} while (choice == 0);
 	}
 
+	/**
+	 * Describes the boss turn in the game loop
+	 * @throws InterruptedException thrown if the current thread is interrupted
+	 */
 	private static void bossTurn() throws InterruptedException
 	{
+		// Check if the boss has parried previous turn
 		if (b.isHasParried())
 		{
 			b.setHasParried(false);
@@ -390,9 +468,5 @@ public class Game
 			case 1 -> b.parry();
 			default -> b.rest();
 		}
-
-		/*
-		 Implement resting for boss as well
-		 */
 	}
 }
