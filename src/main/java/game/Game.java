@@ -62,44 +62,12 @@ public class Game
 	private static void getPlayerName()
 	{
 		String prompt = ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + "Enter your player name:" + ConsoleColors.RESET + " ";
-		int attempts = 0;
-		System.out.println(prompt);
-		String pn = s.nextLine();
-		attempts++;
-		while (pn.trim().isEmpty())
+		String output = Game.getPlayerActionAnswer(prompt, "^(?=.*[a-zA-Z]).*$");
+		while (output.trim().isEmpty())
 		{
-			switch (attempts)
-			{
-				case 1 ->
-				{
-					System.out.println("It seems you forgot to type in your name.\n" + "Would you be a dear and type it again?");
-					System.out.println("-".repeat(60));
-					System.out.print(prompt);
-					pn = s.nextLine();
-				}
-				case 2 ->
-				{
-					System.out.println("You are doing it on purpose, it would seem. One more chance before I decide for you.");
-					System.out.println("-".repeat(60));
-					System.out.print(prompt);
-					pn = s.nextLine();
-				}
-				default ->
-				{
-					System.out.println("I am not that patient. Your name is now 'Sir Douchebag'");
-					pn = "Sir Douchebag";
-				}
-			}
-			attempts++;
+			output = getPlayerActionAnswer(prompt, "^(?=.*[a-zA-Z]).*$");
 		}
-
-		if (pn.equalsIgnoreCase("no") && attempts >= 1)
-		{
-			System.out.println("Aren't you disrespectful? Let me decide for you then: 'Sir Douchebag'.");
-			pn = "Sir Douchebag";
-		}
-
-		Game.playerName = pn;
+		Game.playerName = output;
 		System.out.println("-".repeat(60));
 	}
 
@@ -109,13 +77,17 @@ public class Game
 	public static void pickClass()
 	{
 		Game.displayPlayableClasses();
-		System.out.print(ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + "Pick your class (using the associated numbers):" + ConsoleColors.RESET + " ");
-		String input = s.nextLine();
+		String prompt = ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + "Pick your class (using the associated numbers):" + ConsoleColors.RESET + " ";
+		String output = Game.getPlayerActionAnswer(prompt, "[0-9]+");
 		int choice;
-		// Regex to check what the player typed in
-		if (input.matches("^[0-9]+$"))
+		if (output.trim().isEmpty())
 		{
-			choice = Integer.parseInt(input);
+			System.out.println("Don't want to pick? Let's do it randomly then!");
+			choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
+		}
+		else
+		{
+			choice = Integer.parseInt(output);
 			switch (choice)
 			{
 				case 1 -> System.out.println("Want to break necks? Barbarian is made for this.");
@@ -123,16 +95,9 @@ public class Game
 				case 3 -> System.out.println("Rogue? You sneaky bastard.");
 				default ->
 				{
-					System.out.println("Don't want to pick? Let's do it randomly then!");
-					choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
 				}
 			}
-			choice--;
-		}
-		else
-		{
-			System.out.println("Think you're funny? Let's do it randomly then!");
-			choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
+			choice --;
 		}
 		// Affecting the chosen class to the static variable
 		p = Loader.playableClasses.get(choice);
@@ -178,8 +143,9 @@ public class Game
 
 	/**
 	 * Explains the game rules and context to the player
+	 * @throws InterruptedException thrown if current thread is interrupted
 	 */
-	private static void initRules()
+	private static void initRules() throws InterruptedException
 	{
 		System.out.printf("""
 				Here are the rules. You are about to go through rooms that all contains at least one boss. You can only go to the next one by defeating the boss.
@@ -187,27 +153,32 @@ public class Game
 				Those actions will be accessible by the numbers associated to them (like the class choice). And don't try to be clever and type another thing than the numbers,
 				otherwise, it will be randomized (or worse).
 				I wish you good luck, %s.
+				\n""", Game.playerName);
+		String prompt = """
 				Are you sure you want to go into the first room?
 				%s 1 - YES %s
 				%s 2 - NO %s
-				\n""", Game.playerName, ConsoleColors.BLACK, ConsoleColors.RESET, ConsoleColors.BLACK, ConsoleColors.RESET);
-		String answer = s.nextLine();
+				""".formatted(ConsoleColors.BLACK, ConsoleColors.RESET, ConsoleColors.BLACK, ConsoleColors.RESET);
+
+		String output = Game.getPlayerActionAnswer(prompt, "^[1-2]$");
 		// Checks what the player typed in
-		if (answer.matches("^[1-2]$"))
+		if (!output.trim().isEmpty())
 		{
-			int intAnswer = Integer.parseInt(answer);
+			int intAnswer = Integer.parseInt(output);
 			if (intAnswer == 1)
 			{
 				System.out.println("You brave fool. Let's walk into the room then!");
 			}
 			else
 			{
-				System.out.println("OK. Let's go back to the beginning.\nNo, just joking. In the room, you go!");
+				System.out.println("OK. Let's go back to the beginning.\n");
+				Thread.sleep(3000);
+				System.out.println("No, just joking. In the room, you go!");
 			}
 		}
 		else
 		{
-			System.out.println("Don't want to decide yet? That is OK. You will go into the room no matter what.");
+			System.out.println("Don't want to decide? That is OK. You will go into the room no matter what.");
 		}
 		System.out.println("-".repeat(60));
 	}
@@ -309,12 +280,11 @@ public class Game
 	{
 		// Displays weapons list
 		e.displayWeapons();
-		System.out.println("Enter the number of the desired weapon: (nothing to go back the previous screen)");
-		String answer = s.nextLine();
-		// Checks what the player typed in
-		if (answer.matches("^[0-9]+$"))
+		String prompt = "Enter the number of the desired weapon: (nothing to go back the previous screen)";
+		String output = Game.getPlayerActionAnswer(prompt, "^[0-9]+$");
+		if (!output.trim().isEmpty())
 		{
-			int choice = Integer.parseInt(answer);
+			int choice = Integer.parseInt(output);
 			// Check if choice is indeed a valid choice
 			if (choice >= 0 && choice <= e.getWeapons().size())
 			{
@@ -325,16 +295,9 @@ public class Game
 					System.out.printf("Your active weapon is now %s.\n", e.getActiveWeapon().getName());
 					return true;
 				}
-				else
-				{
-					System.out.println("No change happened. Return to the previous screen.");
-				}
 			}
 		}
-		else
-		{
-			System.out.println("No change happened. Return to the previous screen.");
-		}
+		System.out.println("No change happened. Return to the previous screen.");
 		return false;
 	}
 
@@ -343,18 +306,15 @@ public class Game
 	 * @param pattern RegEx pattern to check
 	 * @return choice of player or 0 if not valid
 	 */
-	private static int getPlayerActionAnswer(String pattern)
+	private static String getPlayerActionAnswer(String prompt, String pattern)
 	{
-		System.out.printf("%s What will you do?%s ", ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK, ConsoleColors.RESET);
+		System.out.printf("%s%s%s ", ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK, prompt, ConsoleColors.RESET);
 		String answer = s.nextLine();
-		if (answer.matches(pattern))
+		if (!answer.trim().isEmpty() && answer.matches(pattern))
 		{
-			return Integer.parseInt(answer);
+			return answer;
 		}
-		else
-		{
-			return 0;
-		}
+		return "";
 	}
 
 	/**
@@ -373,20 +333,20 @@ public class Game
 			}
 			System.out.printf("%s Turn.%s\n", ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK_UNDERLINED + p.getNickname(), ConsoleColors.RESET);
 			// Displays the messages with the possible actions
-			System.out.printf("""
+			String prompt = """
 							What do you want to do?
 							%s1%s - Attack %s %s
 							%s2%s - Parry (halve damage if attacked next turn & restore a bit of stamina)
 							%s3%s - Change Weapon
 							%s4%s - Rest (restore health, mana & stamina)
 							%s5%s - Character status
-							\n""", ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET, p.getActiveWeapon().getDamageCapability(),
+							\n""".formatted(ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET, p.getActiveWeapon().getDamageCapability(),
 					p.isStaminaOut() ? ConsoleColors.RED_UNDERLINED + "Cannot attack because of exhaustion." + ConsoleColors.RESET : "",
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET,
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET,
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET,
 					ConsoleColors.BLACK_UNDERLINED, ConsoleColors.RESET);
-			choice = Game.getPlayerActionAnswer("^[1-5]$");
+			choice = Integer.parseInt(Game.getPlayerActionAnswer(prompt, "^[1-5]$"));
 			switch (choice)
 			{
 				case 1 ->
