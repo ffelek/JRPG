@@ -1,5 +1,9 @@
 package utils;
 
+/**
+ * Contains constants values
+ * @author felek
+ */
 public abstract class Constants
 {
 	public static final String CONFIG_FILE_KEY = "config.properties";

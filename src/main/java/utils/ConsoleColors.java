@@ -1,5 +1,9 @@
 package utils;
 
+/**
+ * Contains the color codes for improving readability in the terminal
+ * @author felek
+ */
 public class ConsoleColors
 {
 	// Reset

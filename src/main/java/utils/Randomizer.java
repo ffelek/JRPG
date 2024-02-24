@@ -2,6 +2,10 @@ package utils;
 
 import java.util.Random;
 
+/**
+ * Manages the randomness in the game
+ * @author felek
+ */
 public class Randomizer
 {
 	private static final Random random = new Random();
