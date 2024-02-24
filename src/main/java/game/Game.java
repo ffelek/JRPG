@@ -95,6 +95,8 @@ public class Game
 				case 3 -> System.out.println("Rogue? You sneaky bastard.");
 				default ->
 				{
+					System.out.println("Don't want to choose one of those? Too bad you had a choice, because now, it will be a random one!");
+					choice = Randomizer.randomInRange(Loader.playableClasses.size() - 1, 0);
 				}
 			}
 			choice --;
