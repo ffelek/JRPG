@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import enums.SpellType;
 
+/**
+ *
+ */
 @Getter
 @Setter
 public class Spell

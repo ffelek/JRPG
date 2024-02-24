@@ -4,6 +4,10 @@ import enums.WeatherType;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Defines a weather
+ * @author felek
+ */
 @Getter
 @Setter
 public class Weather
